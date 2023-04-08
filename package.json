@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "start": "node ./bin/www",
-    "devStart": "nodemon -e hbs,js,html app.js"
+    "devStart": "nodemon -e handlebars,js,html app.js"
   },
   "dependencies": {
     "cookie-parser": "~1.4.4",

@@ -3,12 +3,19 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
+var engine = require('express-handlebars').engine;
+
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
+var productsRouter = require('./routes/products');
 
 var app = express();
 
-app.listen(3000,() => console.log("Listening on port 3000..."))
+app.listen(3000,() => console.log("Listening on port 3000..."));
+
+app.engine('handlebars', engine());
+app.set('view engine', 'handlebars');
+app.set('views', './views');
 
 app.use(logger('dev'));
 app.use(express.json());
@@ -18,5 +25,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+app.use("/products", productsRouter);
 
 module.exports = app;
