@@ -2,8 +2,8 @@ var express = require('express');
 var router = express.Router();
 var Product = require('../models/mdProduct');
 var mongoose = require('mongoose');
-import {srv} from '../helpers/server-address';//My own server
-// import {srv} from '../helpers/srv-adress';
+var srv = require('../helpers/server-address')//My own server
+// var srv = require('../helpers/srv-address');
 
 mongoose.connect(srv);
 
@@ -26,7 +26,6 @@ router.post('/add',async function(req, res) {
       customerID: req.body.customerID,
       customerName: req.body.customerName,
     });
-    console.log(product);
   } catch(e) {
     console.log('Hmm sussy at Product.create()');
     console.log(e);
@@ -36,7 +35,6 @@ router.post('/add',async function(req, res) {
 
 router.post('/edit/:_id',async function(req,res){
   const product = await Product.findById(req.params._id).lean();
-  console.log(product);
   res.render('editProduct',{ title: 'Product Editor', product: product });
 })
 
@@ -48,9 +46,20 @@ router.post('/delete/:_id',function(req,res){
   .catch(e => console.log(e));
 })
 
-router.post('/editProduct',async function(req,res){
-  const product = await Product.findOne({ _id: req.params._id });
-  res.redirect('/products');
+router.post('/editProduct/:_id',async function(req,res){
+  const product = await Product.findById(req.params._id);
+  product.name = req.body.name;
+  product.price = req.body.price;
+  product.color = req.body.color;
+  product.quantity = req.body.quantity;
+  product.type = req.body.type;
+  product.customerID = req.body.customerID;
+  product.customerName = req.body.customerName;
+  product.save()
+  .then(() => 
+    res.redirect('/products')
+  )
+  .catch(e => console.log(e));
 })
 
 module.exports = router;

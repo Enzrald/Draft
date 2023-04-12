@@ -2,8 +2,10 @@ var express = require('express');
 var router = express.Router();
 var User = require('../models/mdUser');
 var mongoose = require('mongoose');
-import {srv} from '../helpers/server-address';//My own server
-// import {srv} from '../helpers/srv-adress';
+var srv = require('../helpers/server-address')//My own server
+// var srv = require('../helpers/srv-address');
+
+console.log(srv);
 
 mongoose.connect(srv);
 
@@ -31,8 +33,9 @@ router.post('/add',async function(req, res) {
   res.redirect('/users');
 });
 
-router.post('/edit/:id',function(req,res){
-  res.redirect('/users');
+router.post('/edit/:_id',async function(req,res){
+  const user = await User.findById(req.params._id).lean();
+  res.render('editUser',{ title: 'User Editor', user: user });
 })
 
 router.post('/delete/:_id',function(req,res){
@@ -40,6 +43,19 @@ router.post('/delete/:_id',function(req,res){
   .then(() => {
     res.redirect('/users');
   })
+  .catch(e => console.log(e));
+})
+
+router.post('/editUser/:_id',async function(req,res){
+  const product = await Product.findById(req.params._id);
+  product.name = req.body.name;
+  product.age = req.body.age;
+  product.email = req.body.email;
+  product.password = req.body.password;
+  product.save()
+  .then(() => 
+    res.redirect('/users')
+  )
   .catch(e => console.log(e));
 })
 

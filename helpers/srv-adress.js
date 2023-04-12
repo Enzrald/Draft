@@ -1,1 +1,2 @@
-export const srv = ''
+const srv = 'Hmm';
+module.exports = srv;
