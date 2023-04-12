@@ -2,8 +2,10 @@ var express = require('express');
 var router = express.Router();
 var User = require('../models/mdUser');
 var mongoose = require('mongoose');
+import {srv} from '../helpers/server-address';//My own server
+// import {srv} from '../helpers/srv-adress';
 
-mongoose.connect('mongodb+srv://dbEnzrald:Khoa19082003@mydatabase.v2hogoh.mongodb.net/assignment_db');
+mongoose.connect(srv);
 
 /* GET users listing. */
 router.get('/',async function(req, res) {

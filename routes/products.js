@@ -2,8 +2,10 @@ var express = require('express');
 var router = express.Router();
 var Product = require('../models/mdProduct');
 var mongoose = require('mongoose');
+import {srv} from '../helpers/server-address';//My own server
+// import {srv} from '../helpers/srv-adress';
 
-mongoose.connect('mongodb+srv://dbEnzrald:Khoa19082003@mydatabase.v2hogoh.mongodb.net/assignment_db');
+mongoose.connect(srv);
 
 /* GET home page. */
 router.get('/',async function(req, res) {
