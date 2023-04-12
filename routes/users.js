@@ -47,7 +47,7 @@ router.post('/delete/:_id',function(req,res){
 })
 
 router.post('/editUser/:_id',async function(req,res){
-  const product = await Product.findById(req.params._id);
+  const product = await User.findById(req.params._id);
   product.name = req.body.name;
   product.age = req.body.age;
   product.email = req.body.email;
