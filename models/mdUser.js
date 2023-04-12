@@ -1,13 +1,16 @@
-import mongoose from 'mongoose';
+var mongoose = require('mongoose');
 
 const scmUser = mongoose.Schema({
     name: {
         type: String,
-        required: true,
+        required: true
     },
     age: {
         type: Number,
         min: 18
+    },
+    image: {
+        type: Buffer
     },
     email: {
         type: String,
@@ -29,4 +32,9 @@ const scmUser = mongoose.Schema({
     }
 })
 
-module.exports = mongoose.model('mdUser',scmUser)
+scmUser.pre('save', function(next){
+    this.updateDate = Date.now();
+    next();
+})
+
+module.exports = mongoose.model('Users',scmUser)
